@@ -8,7 +8,7 @@ const RegistrationScreen: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState('');
 
   const handleRegistration = async () => {
     try {
@@ -26,7 +26,7 @@ const RegistrationScreen: React.FC = () => {
         setError(response.message);
       }
     } catch (error) {
-      setError('Failed to register user');
+      setError(error.message);
     }
   };
 
@@ -44,12 +44,12 @@ const RegistrationScreen: React.FC = () => {
       />
       <TextInput
         placeholder="Password"
+        secureTextEntry
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
       />
       <Button title="Register" onPress={handleRegistration} />
-      {error && <Text>{error}</Text>}
+      {error ? <Text>{error}</Text> : null}
     </View>
   );
 };
