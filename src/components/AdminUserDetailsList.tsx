@@ -1,11 +1,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList } from 'react-native';
-import { AdminUserDetailsResponse, User } from '../types/Types';
-import { getAdminUserDetails } from '../apis/AdminUserDetailsApi';
+import { AdminUserDetailsRequest, AdminUserDetailsResponse, User } from '../types/Types';
+import getAdminUserDetails from '../apis/AdminUserDetailsApi';
 
 const AdminUserDetailsList: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetchAdminUserDetails();
@@ -13,10 +14,15 @@ const AdminUserDetailsList: React.FC = () => {
 
   const fetchAdminUserDetails = async () => {
     try {
-      const response: AdminUserDetailsResponse = await getAdminUserDetails();
+      const request: AdminUserDetailsRequest = {
+        token: 'YOUR_ADMIN_JWT_TOKEN', // Replace with the actual admin JWT token
+      };
+
+      const response: AdminUserDetailsResponse = await getAdminUserDetails(request);
+
       setUsers(response.users);
     } catch (error) {
-      console.error('Error fetching admin user details:', error);
+      setError('Failed to retrieve admin user details');
     }
   };
 
@@ -32,7 +38,7 @@ const AdminUserDetailsList: React.FC = () => {
 
   return (
     <View>
-      <Text>Admin User Details</Text>
+      {error ? <Text>{error}</Text> : null}
       <FlatList
         data={users}
         renderItem={renderUserItem}
