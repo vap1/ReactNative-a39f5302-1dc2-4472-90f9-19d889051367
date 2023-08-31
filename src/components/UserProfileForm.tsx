@@ -1,93 +1,87 @@
 
-import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
-import { UserProfileUpdateRequest } from '../types/Types';
-import { updateUserProfile } from '../apis/UserProfileUpdateApi';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, Button, Text } from 'react-native';
+import { UserProfileRequest, UserProfileResponse, UserProfileUpdateRequest, UserProfileUpdateResponse } from '../types/Types';
+import getUserProfile from '../apis/UserProfileApi';
+import updateUserProfile from '../apis/UserProfileUpdateApi';
 
-interface UserProfileFormProps {
-  token: string;
-  initialName: string;
-  initialContactInfo: string;
-  initialAddress: string;
-  initialProfilePicture: string;
-}
+const UserProfileForm: React.FC = () => {
+  const [name, setName] = useState('');
+  const [contactInfo, setContactInfo] = useState('');
+  const [address, setAddress] = useState('');
+  const [profilePicture, setProfilePicture] = useState('');
+  const [error, setError] = useState('');
 
-const UserProfileForm: React.FC<UserProfileFormProps> = ({
-  token,
-  initialName,
-  initialContactInfo,
-  initialAddress,
-  initialProfilePicture,
-}) => {
-  const [name, setName] = useState(initialName);
-  const [contactInfo, setContactInfo] = useState(initialContactInfo);
-  const [address, setAddress] = useState(initialAddress);
-  const [profilePicture, setProfilePicture] = useState(initialProfilePicture);
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
 
-  const handleSaveChanges = () => {
-    const request: UserProfileUpdateRequest = {
-      token,
-      name,
-      contactInfo,
-      address,
-      profilePicture,
-    };
+  const fetchUserProfile = async () => {
+    try {
+      const request: UserProfileRequest = {
+        token: 'YOUR_JWT_TOKEN', // Replace with the actual JWT token
+      };
 
-    updateUserProfile(request)
-      .then((response) => {
-        console.log(response.message);
-        // Handle success response
-      })
-      .catch((error) => {
-        console.error(error);
-        // Handle error response
-      });
+      const response: UserProfileResponse = await getUserProfile(request);
+
+      const { user } = response;
+      setName(user.name);
+      setContactInfo(user.contactInfo || '');
+      setAddress(user.address || '');
+      setProfilePicture(user.profilePicture || '');
+    } catch (error) {
+      setError('Failed to retrieve user profile');
+    }
+  };
+
+  const handleProfileUpdate = async () => {
+    try {
+      const request: UserProfileUpdateRequest = {
+        token: 'YOUR_JWT_TOKEN', // Replace with the actual JWT token
+        name,
+        contactInfo,
+        address,
+        profilePicture,
+      };
+
+      const response: UserProfileUpdateResponse = await updateUserProfile(request);
+
+      if (response.success) {
+        // Profile update successful
+      } else {
+        setError(response.message);
+      }
+    } catch (error) {
+      setError('Failed to update user profile');
+    }
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <TextInput
-        style={styles.input}
+        placeholder="Name"
         value={name}
         onChangeText={setName}
-        placeholder="Name"
       />
       <TextInput
-        style={styles.input}
+        placeholder="Contact Info"
         value={contactInfo}
         onChangeText={setContactInfo}
-        placeholder="Contact Info"
       />
       <TextInput
-        style={styles.input}
+        placeholder="Address"
         value={address}
         onChangeText={setAddress}
-        placeholder="Address"
       />
       <TextInput
-        style={styles.input}
+        placeholder="Profile Picture"
         value={profilePicture}
         onChangeText={setProfilePicture}
-        placeholder="Profile Picture"
       />
-      <Button title="Save Changes" onPress={handleSaveChanges} />
+      <Button title="Save Changes" onPress={handleProfileUpdate} />
+      {error ? <Text>{error}</Text> : null}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  input: {
-    height: 40,
-    borderColor: '#dddddd',
-    borderWidth: 1,
-    borderRadius: 4,
-    marginBottom: 16,
-    paddingHorizontal: 8,
-  },
-});
 
 export default UserProfileForm;
