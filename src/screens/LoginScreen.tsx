@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
 import { UserLoginRequest, UserLoginResponse } from '../types/Types';
-import { loginUser } from '../apis/UserLoginApi';
+import loginUser from '../apis/UserLoginApi';
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -19,12 +19,12 @@ const LoginScreen: React.FC = () => {
       const response: UserLoginResponse = await loginUser(request);
 
       if (response.success) {
-        // Handle successful login
+        // Login successful, navigate to the next screen
       } else {
         setError(response.message);
       }
     } catch (error) {
-      setError('An error occurred during login.');
+      setError('Failed to login user');
     }
   };
 
@@ -37,9 +37,9 @@ const LoginScreen: React.FC = () => {
       />
       <TextInput
         placeholder="Password"
+        secureTextEntry
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
       />
       <Button title="Login" onPress={handleLogin} />
       {error ? <Text>{error}</Text> : null}
