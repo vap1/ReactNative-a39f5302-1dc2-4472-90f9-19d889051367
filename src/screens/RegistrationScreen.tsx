@@ -2,13 +2,13 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
 import { UserRegistrationRequest, UserRegistrationResponse } from '../types/Types';
-import { registerUser } from '../apis/UserRegistrationApi';
+import registerUser from '../apis/UserRegistrationApi';
 
 const RegistrationScreen: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState('');
 
   const handleRegistration = async () => {
     try {
@@ -23,10 +23,10 @@ const RegistrationScreen: React.FC = () => {
       if (response.success) {
         // Registration successful, navigate to the next screen
       } else {
-        setErrorMessage(response.message);
+        setError(response.message);
       }
     } catch (error) {
-      setErrorMessage('An error occurred during registration.');
+      setError('Failed to register user');
     }
   };
 
@@ -49,7 +49,7 @@ const RegistrationScreen: React.FC = () => {
         onChangeText={setPassword}
       />
       <Button title="Register" onPress={handleRegistration} />
-      {errorMessage ? <Text>{errorMessage}</Text> : null}
+      {error ? <Text>{error}</Text> : null}
     </View>
   );
 };
