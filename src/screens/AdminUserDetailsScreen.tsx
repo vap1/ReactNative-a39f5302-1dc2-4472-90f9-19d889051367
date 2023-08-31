@@ -22,7 +22,7 @@ const AdminUserDetailsScreen: React.FC = () => {
 
       setUsers(response.users);
     } catch (error) {
-      setError(error.message);
+      setError('Failed to retrieve admin user details');
     }
   };
 
