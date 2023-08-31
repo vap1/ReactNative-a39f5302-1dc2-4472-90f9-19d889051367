@@ -26,7 +26,7 @@ const RegistrationScreen: React.FC = () => {
         setError(response.message);
       }
     } catch (error) {
-      setError('Failed to register user');
+      setError(error.message);
     }
   };
 
@@ -44,9 +44,9 @@ const RegistrationScreen: React.FC = () => {
       />
       <TextInput
         placeholder="Password"
-        secureTextEntry
         value={password}
         onChangeText={setPassword}
+        secureTextEntry
       />
       <Button title="Register" onPress={handleRegistration} />
       {error ? <Text>{error}</Text> : null}
