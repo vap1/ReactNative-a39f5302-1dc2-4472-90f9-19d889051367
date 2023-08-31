@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
 import { UserProfileRequest, UserProfileResponse, UserProfileUpdateRequest, UserProfileUpdateResponse } from '../types/Types';
 import getUserProfile from '../apis/UserProfileApi';
@@ -19,7 +19,7 @@ const ProfileScreen: React.FC = () => {
   const fetchUserProfile = async () => {
     try {
       const request: UserProfileRequest = {
-        token: 'YOUR_JWT_TOKEN', // Replace with the actual JWT token
+        token: 'YOUR_JWT_TOKEN', // Replace with actual JWT token
       };
 
       const response: UserProfileResponse = await getUserProfile(request);
@@ -30,14 +30,14 @@ const ProfileScreen: React.FC = () => {
       setAddress(user.address || '');
       setProfilePicture(user.profilePicture || '');
     } catch (error) {
-      setError('Failed to retrieve user profile');
+      setError(error.message);
     }
   };
 
   const handleProfileUpdate = async () => {
     try {
       const request: UserProfileUpdateRequest = {
-        token: 'YOUR_JWT_TOKEN', // Replace with the actual JWT token
+        token: 'YOUR_JWT_TOKEN', // Replace with actual JWT token
         name,
         contactInfo,
         address,
@@ -52,7 +52,7 @@ const ProfileScreen: React.FC = () => {
         setError(response.message);
       }
     } catch (error) {
-      setError('Failed to update user profile');
+      setError(error.message);
     }
   };
 
