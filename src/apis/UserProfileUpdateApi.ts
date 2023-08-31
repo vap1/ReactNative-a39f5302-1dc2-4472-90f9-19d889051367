@@ -7,7 +7,7 @@ const updateUserProfile = async (request: UserProfileUpdateRequest): Promise<Use
     const response = await axios.put('/api/profile', request, { headers: { Authorization: `Bearer ${request.token}` } });
     return response.data;
   } catch (error) {
-    throw new Error('Failed to update user profile');
+    throw new Error(error.response.data.message);
   }
 };
 
