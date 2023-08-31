@@ -7,7 +7,7 @@ const registerUser = async (request: UserRegistrationRequest): Promise<UserRegis
     const response = await axios.post('/api/register', request);
     return response.data;
   } catch (error) {
-    throw new Error('Failed to register user');
+    throw new Error(error.response.data.message);
   }
 };
 
