@@ -24,7 +24,7 @@ const LoginForm: React.FC = () => {
         setError(response.message);
       }
     } catch (error) {
-      setError('Failed to login user');
+      setError(error.message);
     }
   };
 
