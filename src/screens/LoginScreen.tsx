@@ -7,7 +7,7 @@ import loginUser from '../apis/UserLoginApi';
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState('');
 
   const handleLogin = async () => {
     try {
@@ -24,7 +24,7 @@ const LoginScreen: React.FC = () => {
         setError(response.message);
       }
     } catch (error) {
-      setError('Failed to login user');
+      setError(error.message);
     }
   };
 
@@ -37,12 +37,12 @@ const LoginScreen: React.FC = () => {
       />
       <TextInput
         placeholder="Password"
+        secureTextEntry
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
       />
       <Button title="Login" onPress={handleLogin} />
-      {error && <Text>{error}</Text>}
+      {error ? <Text>{error}</Text> : null}
     </View>
   );
 };
