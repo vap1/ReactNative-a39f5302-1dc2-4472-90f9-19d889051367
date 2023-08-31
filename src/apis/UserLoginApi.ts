@@ -7,7 +7,7 @@ const loginUser = async (request: UserLoginRequest): Promise<UserLoginResponse> 
     const response = await axios.post('/api/login', request);
     return response.data;
   } catch (error) {
-    throw new Error('Failed to login user');
+    throw new Error(error.response.data.message);
   }
 };
 
