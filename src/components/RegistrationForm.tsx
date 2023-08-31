@@ -26,7 +26,7 @@ const RegistrationForm: React.FC = () => {
         setError(response.message);
       }
     } catch (error) {
-      setError('Failed to register user');
+      setError(error.message);
     }
   };
 
