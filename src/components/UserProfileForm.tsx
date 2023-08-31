@@ -30,7 +30,7 @@ const UserProfileForm: React.FC = () => {
       setAddress(user.address || '');
       setProfilePicture(user.profilePicture || '');
     } catch (error) {
-      setError(error.message);
+      setError('Failed to retrieve user profile');
     }
   };
 
@@ -52,7 +52,7 @@ const UserProfileForm: React.FC = () => {
         setError(response.message);
       }
     } catch (error) {
-      setError(error.message);
+      setError('Failed to update user profile');
     }
   };
 
