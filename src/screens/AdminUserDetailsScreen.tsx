@@ -15,14 +15,14 @@ const AdminUserDetailsScreen: React.FC = () => {
   const fetchAdminUserDetails = async () => {
     try {
       const request: AdminUserDetailsRequest = {
-        token: 'YOUR_ADMIN_TOKEN', // Replace with actual admin token
+        token: 'YOUR_ADMIN_JWT_TOKEN', // Replace with actual admin JWT token
       };
 
       const response: AdminUserDetailsResponse = await getAdminUserDetails(request);
 
       setUsers(response.users);
     } catch (error) {
-      setError('Failed to retrieve admin user details');
+      setError(error.message);
     }
   };
 
@@ -38,12 +38,15 @@ const AdminUserDetailsScreen: React.FC = () => {
 
   return (
     <View>
-      {error ? <Text>{error}</Text> : null}
-      <FlatList
-        data={users}
-        renderItem={renderUserItem}
-        keyExtractor={(item) => item.email}
-      />
+      {error ? (
+        <Text>{error}</Text>
+      ) : (
+        <FlatList
+          data={users}
+          renderItem={renderUserItem}
+          keyExtractor={(item) => item.email}
+        />
+      )}
     </View>
   );
 };
