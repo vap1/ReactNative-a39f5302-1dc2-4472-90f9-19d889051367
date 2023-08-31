@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
 import { UserRegistrationRequest } from '../types/Types';
-import { registerUser } from '../apis/UserRegistrationApi';
+import registerUser from '../apis/UserRegistrationApi';
 
 const RegistrationForm: React.FC = () => {
   const [name, setName] = useState('');
@@ -26,7 +26,7 @@ const RegistrationForm: React.FC = () => {
         setError(response.message);
       }
     } catch (error) {
-      setError('An error occurred during registration.');
+      setError('Failed to register user');
     }
   };
 
