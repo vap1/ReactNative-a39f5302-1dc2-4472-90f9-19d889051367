@@ -24,7 +24,7 @@ const LoginScreen: React.FC = () => {
         setError(response.message);
       }
     } catch (error) {
-      setError('Failed to login user');
+      setError(error.message);
     }
   };
 
@@ -37,9 +37,9 @@ const LoginScreen: React.FC = () => {
       />
       <TextInput
         placeholder="Password"
-        secureTextEntry
         value={password}
         onChangeText={setPassword}
+        secureTextEntry
       />
       <Button title="Login" onPress={handleLogin} />
       {error ? <Text>{error}</Text> : null}
