@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
-import { UserLoginRequest } from '../types/Types';
-import { loginUser } from '../apis/UserLoginApi';
+import { UserLoginRequest, UserLoginResponse } from '../types/Types';
+import loginUser from '../apis/UserLoginApi';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -16,15 +16,15 @@ const LoginForm: React.FC = () => {
         password,
       };
 
-      const response = await loginUser(request);
+      const response: UserLoginResponse = await loginUser(request);
 
       if (response.success) {
-        // Handle successful login
+        // Login successful, navigate to the next screen
       } else {
         setError(response.message);
       }
     } catch (error) {
-      setError('An error occurred during login.');
+      setError('Failed to login user');
     }
   };
 
@@ -37,9 +37,9 @@ const LoginForm: React.FC = () => {
       />
       <TextInput
         placeholder="Password"
+        secureTextEntry
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
       />
       <Button title="Login" onPress={handleLogin} />
       {error ? <Text>{error}</Text> : null}
