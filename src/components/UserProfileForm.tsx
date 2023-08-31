@@ -19,7 +19,7 @@ const UserProfileForm: React.FC = () => {
   const fetchUserProfile = async () => {
     try {
       const request: UserProfileRequest = {
-        token: 'YOUR_USER_TOKEN', // Replace with actual user token
+        token: 'YOUR_JWT_TOKEN', // Replace with actual JWT token
       };
 
       const response: UserProfileResponse = await getUserProfile(request);
@@ -30,14 +30,14 @@ const UserProfileForm: React.FC = () => {
       setAddress(user.address || '');
       setProfilePicture(user.profilePicture || '');
     } catch (error) {
-      setError('Failed to retrieve user profile');
+      setError(error.message);
     }
   };
 
   const handleProfileUpdate = async () => {
     try {
       const request: UserProfileUpdateRequest = {
-        token: 'YOUR_USER_TOKEN', // Replace with actual user token
+        token: 'YOUR_JWT_TOKEN', // Replace with actual JWT token
         name,
         contactInfo,
         address,
@@ -52,7 +52,7 @@ const UserProfileForm: React.FC = () => {
         setError(response.message);
       }
     } catch (error) {
-      setError('Failed to update user profile');
+      setError(error.message);
     }
   };
 
