@@ -1,23 +1,14 @@
 
+import axios from 'axios';
 import { AdminUserDetailsRequest, AdminUserDetailsResponse } from '../types/Types';
 
-export const getAdminUserDetails = async (request: AdminUserDetailsRequest): Promise<AdminUserDetailsResponse> => {
+const getAdminUserDetails = async (request: AdminUserDetailsRequest): Promise<AdminUserDetailsResponse> => {
   try {
-    const response = await fetch('/api/admin/users', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${request.token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch admin user details');
-    }
-
-    const data: AdminUserDetailsResponse = await response.json();
-    return data;
+    const response = await axios.get('/api/admin/users', { headers: { Authorization: `Bearer ${request.token}` } });
+    return response.data;
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error('Failed to retrieve admin user details');
   }
 };
+
+export default getAdminUserDetails;
