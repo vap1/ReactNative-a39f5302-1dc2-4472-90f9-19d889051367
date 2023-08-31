@@ -4,10 +4,10 @@ import { UserProfileUpdateRequest, UserProfileUpdateResponse } from '../types/Ty
 
 const updateUserProfile = async (request: UserProfileUpdateRequest): Promise<UserProfileUpdateResponse> => {
   try {
-    const response = await axios.put('/api/profile', request);
+    const response = await axios.put('/api/profile', request, { headers: { Authorization: `Bearer ${request.token}` } });
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data.message);
+    throw new Error('Failed to update user profile');
   }
 };
 
