@@ -7,7 +7,7 @@ const getAdminUserDetails = async (request: AdminUserDetailsRequest): Promise<Ad
     const response = await axios.get('/api/admin/users', { headers: { Authorization: `Bearer ${request.token}` } });
     return response.data;
   } catch (error) {
-    throw new Error('Failed to retrieve admin user details');
+    throw new Error(error.response.data.message);
   }
 };
 
