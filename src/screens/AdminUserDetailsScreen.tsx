@@ -22,7 +22,7 @@ const AdminUserDetailsScreen: React.FC = () => {
 
       setUsers(response.users);
     } catch (error) {
-      setError(error.message);
+      setError('Failed to retrieve admin user details');
     }
   };
 
@@ -38,15 +38,12 @@ const AdminUserDetailsScreen: React.FC = () => {
 
   return (
     <View>
-      {error ? (
-        <Text>{error}</Text>
-      ) : (
-        <FlatList
-          data={users}
-          renderItem={renderUserItem}
-          keyExtractor={(item) => item.email}
-        />
-      )}
+      {error ? <Text>{error}</Text> : null}
+      <FlatList
+        data={users}
+        renderItem={renderUserItem}
+        keyExtractor={(item) => item.email}
+      />
     </View>
   );
 };
