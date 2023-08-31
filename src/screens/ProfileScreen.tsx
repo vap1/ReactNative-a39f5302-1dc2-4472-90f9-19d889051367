@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
 import { UserProfileRequest, UserProfileResponse, UserProfileUpdateRequest, UserProfileUpdateResponse } from '../types/Types';
 import getUserProfile from '../apis/UserProfileApi';
@@ -30,7 +30,7 @@ const ProfileScreen: React.FC = () => {
       setAddress(user.address || '');
       setProfilePicture(user.profilePicture || '');
     } catch (error) {
-      setError(error.message);
+      setError('Failed to retrieve user profile');
     }
   };
 
@@ -52,7 +52,7 @@ const ProfileScreen: React.FC = () => {
         setError(response.message);
       }
     } catch (error) {
-      setError(error.message);
+      setError('Failed to update user profile');
     }
   };
 
