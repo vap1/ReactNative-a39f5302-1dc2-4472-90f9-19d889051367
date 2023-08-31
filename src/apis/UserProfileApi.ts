@@ -7,7 +7,7 @@ const getUserProfile = async (request: UserProfileRequest): Promise<UserProfileR
     const response = await axios.get('/api/profile', { headers: { Authorization: `Bearer ${request.token}` } });
     return response.data;
   } catch (error) {
-    throw new Error(error.response.data.message);
+    throw new Error('Failed to retrieve user profile');
   }
 };
 
